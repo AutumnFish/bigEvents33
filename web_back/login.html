@@ -1,36 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>大事件-后台登录页</title>
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
-    <link rel="stylesheet" type="text/css" href="css/iconfont.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <!-- bs的样式 -->
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css" />
+  </head>
 
-<body>
+  <body>
     <div class="main_wrap">
-        <div class="header">
-            <a href="#" class="logo"><img src="images/logo.png" alt=""></a>
-            <div class="copyright">CopyRight © 2019 深圳百秀信息技术股份有限公司<br>All Rights Reserved</div>
+      <div class="header">
+        <a href="#" class="logo"><img src="images/logo.png" alt=""/></a>
+        <div class="copyright">
+          CopyRight © 2019 深圳百秀信息技术股份有限公司<br />All Rights Reserved
         </div>
+      </div>
 
-        <div class="login_form_con">
-            <div class="login_title"></div>
-            <form class="login_form">
-                <i class="iconfont icon-user"></i>
-                <i class="iconfont icon-key"></i>
-                <input type="text" class="input_txt" placeholder="邮箱/手机号">
-                <input type="password" class="input_pass" placeholder="密码">
-                <input type="submit" class="input_sub" value="登 录">
-            </form>
+      <div class="login_form_con">
+        <div class="login_title"></div>
+        <form class="login_form">
+          <i class="iconfont icon-user"></i>
+          <i class="iconfont icon-key"></i>
+          <input type="text" class="input_txt" placeholder="邮箱/手机号" />
+          <input type="password" class="input_pass" placeholder="密码" />
+          <input type="submit" class="input_sub" value="登 录" />
+        </form>
+      </div>
+    </div>
+    <!-- 模态框 -->
+    <!-- bs的模态框 -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target=".modal"
+    >
+      Small modal
+    </button>
+
+    <!-- 高级模态框 -->
+    <div class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">提示信息</h4>
+          </div>
+          <div class="modal-body">
+            <p>账号密码错误</p>
+          </div>
         </div>
-
-    </div> 
-
-</body>
-
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+  </body>
 </html>
+<script src="./js/jquery-1.12.4.min.js"></script>
+<!-- bs的js -->
+<script src="./js/bootstrap/js/bootstrap.min.js"></script>
+<script>
+  /*
+    用户登录逻辑
+        1. 为登录按钮绑定点击事件
+        2. 获取用户名和密码
+            1. 非空判断
+            2. 为空 提示用户 
+            3. 不为空才往下执行
+        3. ajax调用接口
+        4. 数据返回之后
+            1. 成功  去首页
+            2. 失败 弹框提示用户
+    */
+  $(function() {
+    // 阻止表单的 默认xinwei
+    $('.login_form').submit(function(e) {
+      e.preventDefault()
+    })
+    // 用户登录
+    $('.input_sub').click(function(event) {
+      // 2. 获取用户名和密码 去除 两边的空格
+      var user_name = $('.input_txt')
+        .val()
+        .trim()
+      var password = $('.input_pass')
+        .val()
+        .trim()
+      //     1. 非空判断
+      if (user_name == '' || password == '') {
+        //     2. 为空 提示用户
+        $('.modal-body p').text('用户名，密码不能为空')
+        // 弹框
+        $('.modal').modal()
+        return
+      }
+      //     3. 不为空才往下执行
+      // 3. ajax调用接口
+      $.ajax({
+        url: 'https://autumnfish.cn/big/admin/login',
+        type: 'post',
+        data: {
+          user_name: user_name,
+          password: password
+        },
+        success: function(backData) {
+          // 4. 数据返回之后
+          console.log(backData)
+          if (backData.code == 200) {
+            $('.modal-body p').text('欢迎回来！！！ (* ￣3)(ε￣ *)')
+            // 弹框
+            $('.modal').modal()
+            setTimeout(function() {
+              //     1. 成功  去首页
+              window.location.href = './index.html'
+            }, 1000)
+          } else if (backData.code == 400) {
+            //     2. 失败 弹框提示用户
+            $('.modal-body p').text('用户名，密码错误')
+            // 弹框
+            $('.modal').modal()
+          }
+        }
+      })
+    })
+  })
+</script>
