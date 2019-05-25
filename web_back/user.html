@@ -1,70 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>文章列表</title>
-    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/iconfont.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/main.css" />
     <script src="js/jquery-1.12.4.min.js"></script>
+    <!-- 导入bs的js -->
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="container-fluid">
-        <div class="common_title">
-            用户信息修改
-        </div>
-        <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">用户名称：</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="李思思">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">昵称：</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="思思">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">邮箱：</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="lisisi@126.com">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">用户图标：</label>
-                    <div class="col-sm-10">
-                        <img src="images/2.jpg" alt="" class="user_pic">
-                        <input type="file" id="exampleInputFile">
-                    </div>
-                </div>
+      <div class="common_title">
+        用户信息修改
+      </div>
+      <div class="container-fluid common_con">
+        <form class="form-horizontal article_form">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >用户名称：</label
+            >
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control username"
+                value="李思思"
+                name="username"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >昵称：</label
+            >
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control nickname"
+                value="思思"
+                name="nickname"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >邮箱：</label
+            >
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control email"
+                value="lisisi@126.com"
+                name="email"
+              />
+            </div>
+          </div>
 
-                <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">密码：</label>
-                        <div class="col-sm-4">
-                            <input type="password" class="form-control" id="inputEmail3" value="12345678">
-                        </div>
-                    </div>
-               
-    
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">修改</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label"
+              >用户图标：</label
+            >
+            <div class="col-sm-10">
+              <img src="images/2.jpg" alt="" class="user_pic" />
+              <input type="file" id="exampleInputFile" name="user_pic" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >密码：</label
+            >
+            <div class="col-sm-4">
+              <input
+                type="password"
+                class="form-control password"
+                value="12345678"
+                name="password"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success">修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+    <!-- modal框 -->
+    <div class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">提示信息!!!</h4>
+          </div>
+          <div class="modal-body">
+            <p>恭喜你，修改成功了哦&hellip;</p>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- 自己的逻辑 -->
+    <script>
+      /*
+        获取用户数据
 
-</body>
+            请求地址：https://autumnfish.cn/big/admin/userinfo_get
 
+            请求方式：get
+
+            请求参数：无
+
+            步骤
+
+            1. 进入个人中心页之后
+            2. 通过ajax获取个人中心数据
+            3. 数据获取到之后渲染到页面上
+
+          保存用户修改
+            请求地址：https://autumnfish.cn/big/admin/userinfo_edit 
+
+            请求方式：post
+
+            请求参数：使用formdata提交
+
+            步骤
+
+            1. 为修改按钮绑定点击事件
+            2. 获取数据
+            3. 通过ajax发到服务器 formData jQ需要设置2个属性
+
+    */
+
+      $(function() {
+        // 获取数据
+        $.ajax({
+          url: 'https://autumnfish.cn/big/admin/userinfo_get',
+          type: 'get',
+          success: function(backData) {
+            console.log(backData)
+            for (var key in backData.data) {
+              // console.log(key);
+              // console.log('input.'+key+'');
+              // input.email input.nickname
+              $('input.' + key + '').val(backData.data[key])
+            }
+            // 单独的设置图片
+            $('.user_pic').attr('src', backData.data.user_pic)
+          }
+        })
+        // change事件 绑定
+        $('#exampleInputFile').change(function(e) {
+          // 获取 选中的那个文件
+          console.log(this.files[0])
+          // 方法的作用是 把一个文件变成url地址
+          var url = URL.createObjectURL(this.files[0])
+          // 设置url地址 给img标签
+          $(this)
+            .prev('img')
+            .attr('src', url)
+        })
+
+        // 保存按钮的点击事件
+        $('.btn-success').click(function(e) {
+          e.preventDefault()
+          // 获取数据
+          var formData = new FormData($('.article_form')[0])
+          // ajax
+          $.ajax({
+            url: 'https://autumnfish.cn/big/admin/userinfo_edit',
+            type: 'post',
+            data: formData,
+            contentType: false, // 不设置请求头 用默认值
+            processData: false, // 不把数据变为 key=value&key2=value2
+            success: function(backData) {
+              console.log(backData)
+              if(backData.code==200){
+                $('.modal').modal()
+                setTimeout(function () {  
+                  // js刷新浏览器 
+                  window.location.reload()
+                },1000)
+              }
+            }
+          })
+        })
+      })
+    </script>
+  </body>
 </html>
