@@ -19,7 +19,7 @@
       <a href="#" class="logo"><img src="images/logo02.png" alt="logo"/></a>
       <div class="user_info">
         <img src="images/2.jpg" alt="person" />
-        <span>欢迎&nbsp;&nbsp;李思思</span>
+        <span>欢迎&nbsp;&nbsp; <i>李思思</i></span>
         <b>管理员</b>
       </div>
       <div class="menu">
@@ -116,7 +116,9 @@
             <button type="button" class="btn btn-default" data-dismiss="modal">
               我再看看
             </button>
-            <button type="button" class="btn btn-primary btn-logout">残忍退出</button>
+            <button type="button" class="btn btn-primary btn-logout">
+              残忍退出
+            </button>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -198,38 +200,68 @@
         }
       }
     </script>
+    <!-- 自己的逻辑 -->
+    <script>
+      /*
+  用户退出
+      1. 退出 按钮绑定点击事件
+      2. 点了提示用户 是否退出
+      1. 确认 
+          1. ajax发送
+          2. 提示成功之后
+          3. 去登录页
+      2. 取消 关闭提示框
+
+    获取用户信息
+      请求地址：https://autumnfish.cn/big/admin/getuser
+      请求方式：get
+      请求参数：无
+      步骤
+
+        1. 进入到首页之后
+        2. 通过ajax获取用户信息
+        3. 数据获取到之后 渲染到页面上即可
+
+  */
+      $(function() {
+        // 用户登出
+        $('.icon-tuichu').click(function() {
+          // 提示用户
+          // 确认才调用登出接口
+          $('.modal-logout').modal()
+        })
+        //  点击确认退出
+        $('.btn-logout').click(function() {
+          $.ajax({
+            url: 'https://autumnfish.cn/big/admin/logout',
+            type: 'post',
+            success: function(backData) {
+              // console.log(backData);
+              if (backData.code == 200) {
+                // 登出成功了
+                window.location.href = './login.html'
+              }
+            }
+          })
+        })
+
+        // 获取用户数据
+        $.ajax({
+          url: 'https://autumnfish.cn/big/admin/getuser',
+          type: 'get',
+          success: function(backData) {
+            // console.log(backData);
+            // 修改显示的内容 图片
+            $('.user_info img').attr('src', backData.data.user_pic)
+            $('.user_center_link img').attr('src', backData.data.user_pic)
+            // 名字 原始内容 需要保留 所有选择拼接字符串
+            // 为了精确命中可以人为添加标签
+            $('.user_info span i').html(backData.data.nickname)
+          }
+        })
+
+        
+      })
+    </script>
   </body>
 </html>
-<script>
-  /*
-    用户退出
-        1. 退出 按钮绑定点击事件
-        2. 点了提示用户 是否退出
-        1. 确认 
-            1. ajax发送
-            2. 提示成功之后
-            3. 去登录页
-        2. 取消 关闭提示框
-    */
-  $(function() {
-    $('.icon-tuichu').click(function() {
-      // 提示用户
-      // 确认才调用登出接口
-      $('.modal-logout').modal()
-    })
-    //  点击确认退出
-    $('.btn-logout').click(function(){
-        $.ajax({
-            url:'https://autumnfish.cn/big/admin/logout',
-            type:'post',
-            success:function(backData){
-                // console.log(backData);
-                if(backData.code==200){
-                    // 登出成功了
-                    window.location.href ='./login.html'
-                }
-            }
-        })
-    })
-  })
-</script>
