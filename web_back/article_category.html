@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/main.css" />
     <script src="js/jquery-1.12.4.min.js"></script>
     <script src="js/bootstrap/js/bootstrap.min.js"></script>
+    <style></style>
   </head>
 
   <body>
@@ -103,7 +104,7 @@
               <td colspan="3" class="text-center">
                 <a
                   href="#"
-                  class="btn btn-success"
+                  class="btn btn-success  btn-add"
                   data-toggle="modal"
                   data-target="#addModal"
                   >新增分类</a
@@ -129,17 +130,19 @@
           </div>
           <div class="modal-body">
             <form>
+              <!-- 隐藏的id  隐藏域-->
+              <input type="hidden" name="id" />
               <div class="form-group">
                 <label for="recipient-name" class="control-label"
                   >分类名称:</label
                 >
-                <input type="text" class="form-control" id="recipient-name" />
+                <input type="text" class="form-control" name="name" />
               </div>
               <div class="form-group">
                 <label for="message-text" class="control-label"
                   >分类别名:</label
                 >
-                <input type="text" class="form-control" id="recipient-name" />
+                <input type="text" class="form-control" name="slug" />
               </div>
             </form>
           </div>
@@ -166,17 +169,17 @@
         $('#addModal').modal('hide')
       })
 
-      $('#model_add').click(function() {
-        alert('add')
-        $('#addModal').modal('hide')
-      })
+      // $('#model_add').click(function() {
+      //   alert('add')
+      //   $('#addModal').modal('hide')
+      // })
 
-      $('.category_table').delegate('a', 'click', function() {
-        if ($(this).hasClass('btn-info')) {
-          $('#addModal .modal-title').html('修改分类名称')
-          $('#addModal').modal('show')
-        }
-      })
+      // $('.category_table').on('click', 'a', function() {
+      //   if ($(this).hasClass('btn-info')) {
+      //     $('#addModal .modal-title').html('修改分类名称')
+      //     $('#addModal').modal('show')
+      //   }
+      // })
     </script>
     <!-- 导入模板引擎 -->
     <script src="./js/template-web.js"></script>
@@ -187,8 +190,8 @@
           <td>{{$value.name}}</td>
           <td>{{$value.slug}}</td>
           <td class="text-center">
-              <a href='javascript:editTr({"id":"1","slug":"uncategorized","name":"未分类"});' class="btn btn-info btn-xs">编辑</a>
-              <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
+              <a href='javascript:editTr({"id":"{{$value.id}}","slug":"{{$value.slug}}","name":"{{$value.name}}"});' class="btn btn-info btn-xs">编辑</a>
+              <a href="javascript:deleteTr( {{$value.id}} );" class="btn btn-danger btn-xs">删除</a>
           </td>
       </tr>
       {{/each}}
@@ -198,30 +201,152 @@
     <script>
       /*
       获取分类的数据
-        请求地址：https://autumnfish.cn/big/admin/category_search 
-
+        请求地址：http://localhost:8000/admin/category_search
         请求方式：get
-
         请求参数：无
-
         步骤
-
         1. 进入到分类数据页面之后
         2. ajax获取分类的数据
         3. 数据获取到之后 渲染到页面上
         1. 使用模板引擎渲染页面结构
+      分类新增
+        请求地址：http://localhost:8000/admin/category_add
+        请求方式：post
+        请求参数：
+          名称  	类型    	说明
+          name	string	类别名称
+          slug	string	别名
+        步骤
+        1. 点击新增弹出的modal框中 为新增按钮绑定点击事件
+        2. 获取用户输入的数据
+        3. 通过ajax提交到服务器
+        4. 提交成功之后
+          1. 本地的数据更新为最新的
+
+      区分 新增和编辑
+      弹出的对话框中设置内容
+        步骤
+        1. 模板中可以把数据填充到 editTr这个方法中
+        2. 增加这个方法，定义形参获取数据
+        3. 把数据填充到模态框中
+
+      删除数据
+        请求地址：http://localhost:8000/admin/category_delete
+        请求方式：post
+        请求参数：
+        步骤
+        1. 实现删除a标签绑定的那个方法
+        2. 每次调用方法是传入这一行数据对应的id
+        3. 调用接口
+        4. 提示删除成功之后 重新获取数据（局部刷新）
+
 
         */
+
       $(function() {
-        // 获取分类的数据
-        $.ajax({
-          url: 'https://autumnfish.cn/big/admin/category_search',
-          type: 'get',
-          success: function(backData) {
-            // console.log(backData)
-            var html = template('cate', backData)
-            $('tbody').html(html)
+        // 抽取获取数据的逻辑
+        function getCategory() {
+          // 获取分类的数据
+          $.ajax({
+            url: 'http://localhost:8000/admin/category_search',
+            type: 'get',
+            success: function(backData) {
+              console.log(backData)
+              var html = template('cate', backData)
+              $('tbody').html(html)
+            }
+          })
+        }
+
+        window.editTr = function(data) {
+          console.log(data)
+          // 挨个设置数据
+          for (const key in data) {
+            $('input[name=' + key + ']').val(data[key])
           }
+        }
+        // 删除的方法
+        window.deleteTr = function(id) {
+          // 调用接口
+          $.ajax({
+            url: 'http://localhost:8000/admin/category_delete',
+            type: 'post',
+            data: {
+              id: id
+            },
+            success: function(backData) {
+              // console.log(backData)
+              if (backData.code == 200) {
+                // 局部刷新
+                getCategory()
+              }
+            }
+          })
+        }
+        // 默认调用一次
+        getCategory()
+
+        // 点击新增 同时整合编辑功能
+        $('#model_add').click(function() {
+          console.log($('form').serialize())
+          // 判断是编辑还是新增
+          if ($(this).hasClass('btn-success')) {
+            // 编辑
+            // 获取数据
+            $.ajax({
+              url: 'http://localhost:8000/admin/category_edit',
+              data: $('form').serialize(),
+              type: 'post',
+              success: function(backData) {
+                console.log(backData)
+                getCategory()
+              }
+            })
+          } else {
+            // 获取数据
+            // var name = $('input[name=name]').val()
+            // var slug = $('input[name=slug]').val()
+            // jQ封装好的方法 直接获取 表单元素的的value 拼接为 key=value&key2=value2 必须有name属性
+            // console.log($('form').serialize())
+            $.ajax({
+              url: 'http://localhost:8000/admin/category_add',
+              type: 'post',
+              // data: {
+              //   name: name,
+              //   slug: slug
+              // },
+              data: $('form').serialize(), // name=xx&slug=xxx
+              success: function(backData) {
+                console.log(backData)
+                // 重新获取数据
+                getCategory()
+              }
+            })
+          }
+
+          // 隐藏弹出框
+          $('#addModal').modal('hide')
+        })
+
+        // 新增框点击事件
+        $('.btn-add').click(function() {
+          // 顶部
+          $('.modal-title').text('新增分类')
+          // 按钮
+          $('#model_add')
+            .text('新增')
+            .removeClass('btn-success')
+        })
+
+        // 弹出编辑框
+        $('.category_table').on('click', 'a.btn-info', function() {
+          // 修改文章的标题
+          $('#addModal .modal-title').html('修改分类名称')
+          // 修改按钮
+          $('#model_add')
+            .text('修改')
+            .addClass('btn-success')
+          $('#addModal').modal('show')
         })
       })
     </script>

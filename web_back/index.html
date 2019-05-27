@@ -213,7 +213,7 @@
       2. 取消 关闭提示框
 
     获取用户信息
-      请求地址：https://autumnfish.cn/big/admin/getuser
+      请求地址：http://localhost:8000/admin/getuser
       请求方式：get
       请求参数：无
       步骤
@@ -233,7 +233,7 @@
         //  点击确认退出
         $('.btn-logout').click(function() {
           $.ajax({
-            url: 'https://autumnfish.cn/big/admin/logout',
+            url: 'http://localhost:8000/admin/logout',
             type: 'post',
             success: function(backData) {
               // console.log(backData);
@@ -247,7 +247,7 @@
 
         // 获取用户数据
         $.ajax({
-          url: 'https://autumnfish.cn/big/admin/getuser',
+          url: 'http://localhost:8000/admin/getuser',
           type: 'get',
           success: function(backData) {
             // console.log(backData);
