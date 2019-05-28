@@ -24,11 +24,7 @@
           <div class="col-xs-6">
             <form class="form-inline">
               <select id="selCategory" name="" class="form-control input-sm">
-                <option>所有分类</option>
-                <option>未分类</option>
-                <option>奇趣事</option>
-                <option>会生活</option>
-                <option>爱旅行</option>
+                <option value="">所有分类</option>
               </select>
               <select id="selStatus" name="" class="form-control input-sm">
                 <option value="">所有状态</option>
@@ -300,7 +296,7 @@
     </script>
     <!-- 导入模板引擎 -->
     <script src="./js/template-web.js"></script>
-    <!-- 定义模板 -->
+    <!-- 定义模板 tr -->
     <script id="article" type="text/html">
       {{each data}}
           <tr>
@@ -319,6 +315,12 @@
                       <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
                   </td>
               </tr>
+      {{/each}}
+    </script>
+    <!-- 定义模板 -->
+    <script id="type" type="text/html">
+      {{each data}}
+        <option value="{{$value.id}}">{{$value.name}}</option>
       {{/each}}
     </script>
     <!-- 自己的js -->
@@ -350,7 +352,9 @@
               page: myPage,
               perpage: 10,
               // 动态获取select的value值 每次只要调用即可 自动获取最新的选中状态
-              state: $('#selStatus').val()
+              state: $('#selStatus').val(),
+              // 额外的传递 type 选择的是什么 就传递什么
+              type: $('#selCategory').val()
             },
             success: function(backData) {
               console.log(backData)
@@ -372,9 +376,8 @@
           prev: '上一页',
           next: '下一页',
           last: '尾页',
+          visiblePages: 3,
           onPageClick: function(event, page) {
-            // console.log(event);
-            // console.log(page);
             // 修改page的值
             myPage = page
             // 重新获取数据
@@ -389,6 +392,18 @@
           e.preventDefault()
           // 调用方法即可
           getData()
+        })
+
+        // 获取分类的数据
+        $.ajax({
+          url: 'http://localhost:8000/admin/category_search',
+          type: 'get',
+          success: function(backData) {
+            // console.log(backData);
+            // 核心方法
+            // 设置到select中
+            $('#selCategory').append(template('type', backData))
+          }
         })
       })
     </script>
