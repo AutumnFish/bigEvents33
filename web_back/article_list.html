@@ -342,6 +342,28 @@
       $(function() {
         // 定义页码的变量
         var myPage = 1
+        // 设置分页效果
+        // 找到分页标签
+        var $pagination = $('.pagination')
+        // 总页数单独定义
+        var myTotalPage = 20
+        // 默认设置
+        var defaultOpts = {
+          totalPages: myTotalPage,
+          first: '第一页',
+          prev: '上一页',
+          next: '下一页',
+          last: '尾页',
+          visiblePages: 3,
+          onPageClick: function(event, page) {
+            // 修改page的值
+            myPage = page
+            // 重新获取数据
+            getData()
+          }
+        }
+        // 把设置传递给分页方法 并生效
+        $pagination.twbsPagination(defaultOpts)
 
         // 抽取获取数据的逻辑
         function getData() {
@@ -359,33 +381,28 @@
             success: function(backData) {
               console.log(backData)
               $('tbody').html(template('article', backData))
+
+              // // 重新设置页码 如果当前总页数 和服务器返回的新总页数不相等 才重新设置
+              if (myTotalPage != backData.totalPage) {
+                // 保存新总页数
+                myTotalPage = backData.totalPage
+                // 筛选之后总页数变少了，内容改变了一般都是从头开始看
+                var currentPage = 1
+                $pagination.twbsPagination('destroy')
+                // 重新设置
+                $pagination.twbsPagination(
+                  $.extend({}, defaultOpts, {
+                    startPage: currentPage,
+                    totalPages: myTotalPage
+                  })
+                )
+              }
             }
           })
         }
 
         // 默认调用一次
         getData()
-
-        // 设置分页效果
-        // 找到分页标签
-        var $pagination = $('.pagination')
-        // 默认设置
-        var defaultOpts = {
-          totalPages: 20,
-          first: '第一页',
-          prev: '上一页',
-          next: '下一页',
-          last: '尾页',
-          visiblePages: 3,
-          onPageClick: function(event, page) {
-            // 修改page的值
-            myPage = page
-            // 重新获取数据
-            getData()
-          }
-        }
-        // 把设置传递给分页方法 并生效
-        $pagination.twbsPagination(defaultOpts)
 
         // 点击筛选 获取数据
         $('#btnSearch').click(function(e) {
