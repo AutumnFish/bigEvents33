@@ -280,7 +280,7 @@
     <script src="./js/jquery-1.12.4.min.js"></script>
     <!-- 导入摸板引擎 -->
     <script src="./js/template-web.js"></script>
-    <!-- 定义模板 -->
+    <!-- 定义模板 顶部文章模板 -->
     <script type="text/html" id="article">
       {{each data}}
         {{if $index==0}}
@@ -289,9 +289,33 @@
             <li>
         {{/if}}
 
-              <a href="#"><img src="{{$value.cover}}" alt=""></a>
+              <a href="./article.html?id={{$value.id}}"><img src="{{$value.cover}}" alt=""></a>
               <p>{{$value.title}}</p>
           </li>
+      {{/each}}
+    </script>
+    <!-- 模板 分类导航模板 -->
+    <script type="text/html" id="cate">
+      {{each data}}
+          <li><a href="#">{{$value.name}}</a></li>
+      {{/each}}
+    </script>
+    <!-- 模板 底部文章 -->
+    <script type="text/html" id="bottom">
+      {{each data}}
+      <div class="common_news_list">
+              <a href="#" class="list_pic"><img src="{{$value.cover}}" alt=""></a>
+              <h4>
+                  <a href="#">{{$value.title}} </a>
+              </h4>
+              <p>
+                 {{@$value.content}}
+              </p>
+              <div class="new_info">
+                  <span>标签：{{$value.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读( {{$value.read}} )&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting"></i>&nbsp;评论( {{$value.comment}} )</span>
+                  <b>发布于 {{$value.date}}</b>
+              </div>
+      </div>
       {{/each}}
     </script>
     <script>
@@ -304,22 +328,41 @@
 
         */
       $(function() {
-        setInterval(function() {
-          // 获取文章
-          $.ajax({
-            url: 'http://localhost:8000/admin/search',
-            type: 'get',
-            data: {
-              page: 1,
-              perpage: 5
-            },
-            success: function(backData) {
-              // console.log(backData)
-              var html = template('article', backData)
-              $('.focus_list').html(html)
-            }
-          })
-        }, 2000)
+        // setInterval(function() {
+        // 获取文章
+        $.ajax({
+          url: 'http://localhost:8000/admin/search',
+          type: 'get',
+          data: {
+            page: 1,
+            perpage: 5
+          },
+          success: function(backData) {
+            console.log(backData)
+            // 顶部文章
+            var html = template('article', backData)
+            $('.focus_list').html(html)
+            // 底部文章
+            var buttomHtml = template('bottom',backData)
+            // 清空
+            $('.common_news_list').remove()
+            // 添加
+            $('.left_con').append(buttomHtml)
+
+          }
+        })
+
+        // 获取分类
+        $.ajax({
+          url: 'http://localhost:8000/admin/category_search',
+          type: 'get',
+          success: function(backData) {
+            //   console.log(backData);
+            // 渲染到页面上
+            $('.left_menu').html(template('cate', backData))
+          }
+        })
+        // }, 2000)
       })
     </script>
   </body>
