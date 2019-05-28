@@ -1,85 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>文章列表</title>
-    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/iconfont.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link type="text/css" rel="stylesheet" href="js/jedate/css/jedate.css">
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link type="text/css" rel="stylesheet" href="js/jedate/css/jedate.css" />
     <script src="js/jquery-1.12.4.min.js"></script>
     <script src="js/jedate/js/jedate.js"></script>
     <script src="js/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="js/tinymce/js/tinymce_setup.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container-fluid">
-        <div class="common_title">
-            写文章
-        </div>
-        <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
-                    <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
-                    <div class="col-sm-4">
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">发布时间：</label>
-                    <div class="col-sm-4">
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button"
-                                    onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
-                                        class="iconfont icon-icondate"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
+      <div class="common_title">
+        写文章
+      </div>
+      <div class="container-fluid common_con">
+        <form class="form-horizontal article_form">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >文章标题：</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="email"
+                class="form-control"
+                id="inputEmail3"
+                placeholder="文章标题"
+                name="title"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label"
+              >文章封面：</label
+            >
+            <div class="col-sm-10">
+              <img src="" alt="" class="preview" />
+              <input type="file" id="exampleInputFile" name="cover" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >文章类别：</label
+            >
+            <div class="col-sm-4">
+              <select class="form-control" name="type">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >发布时间：</label
+            >
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="YYYY-MM-DD"
+                  id="dateinput"
+                  name="date"
+                />
+                <span class="input-group-btn">
+                  <button
+                    class="btn btn-default"
+                    type="button"
+                    onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"
+                  >
+                    <i class="iconfont icon-icondate"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label"
+              >文章内容：</label
+            >
+            <div class="col-sm-10">
+              <textarea
+                class="form-control"
+                id="rich_content"
+                placeholder="文章内容"
+              >
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugiat illo nihil molestias ab. Laborum eius non atque, totam sapiente quae obcaecati assumenda ratione inventore pariatur maiores, qui libero delectus.
-                            </textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">发布</button>
-                        <button type="submit" class="btn btn-default">存为草稿</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+                            </textarea
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success btn-publish">
+                发布
+              </button>
+              <button type="submit" class="btn btn-default">存为草稿</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+    <!-- 导入模板引擎 -->
+    <script src="./js/template-web.js"></script>
+    <!-- 模板 -->
+    <script id="cate" type="text/html">
+      {{each data}}
+      <option value="{{$value.id}}">{{$value.name}}</option>
+      {{/each}}
+    </script>
+    <!-- 自己的js -->
+    <script>
+      /*
+        图片预览
+            步骤
+            1. 增加一个img标签用来预览 .preview
+            2. 文件选择标签的change事件
+            3. 获取文件
+            4. URL.createObjectUrl(文件)
+            5. 设置地址给img标签的src
 
-</body>
+        分类获取
+            步骤
+            1. 进入页面之后 ajax获取 类别（category）的数据
+            2. 数据获取到之后渲染到页面上
+            1. 模板引擎
 
+        文章发表
+            步骤
+            1. 点击发布
+            2. 获取页面中的数据
+            3. 通过ajax提交到服务器
+            4. 成功之后提示用户即可
+            5. 去主页
+
+
+        */
+      $(function() {
+        // 预览 change事件
+        $('#exampleInputFile').change(function(e) {
+          var file = this.files[0]
+          var url = URL.createObjectURL(file)
+          $(this)
+            .prev('img.preview')
+            .attr('src', url)
+        })
+        // 分类获取
+        $.ajax({
+          url: 'http://localhost:8000/admin/category_search',
+          type: 'get',
+          success: function(backData) {
+            // console.log(backData)
+            // 方法
+            // 渲染
+            $('select').html(template('cate', backData))
+          }
+        })
+
+        // 文章发布
+        $('.btn-publish').click(function(e) {
+          e.preventDefault()
+          // 取值 没有 content state
+          var formData = new FormData($('form')[0])
+          // formData.append追加
+          formData.append('state', '已发布')
+          formData.append('content', tinyMCE.activeEditor.getContent())
+          // 发送
+          $.ajax({
+            url: 'http://localhost:8000/admin/article_publish',
+            type: 'post',
+            data: formData,
+            contentType: false, //  不设置请求头
+            processData: false, // 不格式化value为key=value，
+            success: function(backData) {
+              setTimeout(function() {
+                if (backData.code == 201) {
+                  // 提示 并跳转
+                  //   console.log(backData)
+                  alert('兄嘚，弄好啦')
+                  window.location.href = './index.html'
+                }
+              }, 1000)
+            }
+          })
+        })
+      })
+    </script>
+  </body>
 </html>
